@@ -105,14 +105,20 @@ parse:
 
     intermediate *= negative ? -1 : 1;
 
-    if (signed ? intermediate < -(1<<(bitWidth-1)) || intermediate >= (1<<(bitWidth-1))
-               : intermediate < 0 || intermediate >= (1<<bitWidth)) {
+    if (signed ? intermediate < -(1L<<(bitWidth-1)) || intermediate >= (1<<(bitWidth-1))
+               : intermediate < 0 || intermediate >= (1UL<<bitWidth)) {
         throw new Exception(errorString(format("numeric token out of range for %d bit %s integer",
 	                                       bitWidth, (signed ? "signed" : "unsigned")),
 					token, line, lineNumber));
     }
 
     return intermediate;
+}
+
+/* wrapper for parseIntegerToken to parse start address from command line */
+uint parseStartAddress(string startAddressString) {
+    return cast(uint) parseIntegerToken(Token(startAddressString, 0), 32, false,
+                                        startAddressString, 0);
 }
 
 unittest {

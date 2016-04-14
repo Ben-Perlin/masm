@@ -6,9 +6,11 @@ import std.getopt;
 import std.stdio;
 
 import program;
+import util;
 
 int main(string[] args) {
     uint startAddress = 0x0040_0000;
+    string startAddressString;
     string outputFilename;
     bool disassemblyMode;
     bool printSymbolTable;
@@ -16,7 +18,7 @@ int main(string[] args) {
 
     auto helpInformation = getopt(args,
           std.getopt.config.passThrough,
-          "start|s", &startAddress,
+          "start|s", &startAddressString,
           "disassemble|d", &disassemblyMode,
           "output-file|o", &outputFilename,
           "strict", &strictCompatibility,
@@ -25,6 +27,15 @@ int main(string[] args) {
     if (helpInformation.helpWanted) {
         defaultGetoptPrinter("Usage masm [filename]", helpInformation.options);
         return 0;
+    }
+
+    if (startAddressString != "") {
+        try {
+            startAddress = parseStartAddress(startAddressString);
+        } catch (Exception exception) {
+            stderr.writeln(exception.msg);
+            return 1;
+        }
     }
 
     File codeFile = stdin; /* note does not work from console yet */
