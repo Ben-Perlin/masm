@@ -2,6 +2,7 @@
  * masm.d: main file for mips assembler/disassembler                            *
  * 2016 - Ben Perlin                                                            *
  *******************************************************************************/
+import std.exception;
 import std.getopt;
 import std.stdio;
 
@@ -32,6 +33,7 @@ int main(string[] args) {
     if (startAddressString != "") {
         try {
             startAddress = parseStartAddress(startAddressString);
+            enforce(startAddress%4 == 0, "Error: Start address must be word aligned");
         } catch (Exception exception) {
             stderr.writeln(exception.msg);
             return 1;
