@@ -12,7 +12,9 @@ To install comiler goto "http://dlang.org/download.html" and download the dmg fo
 To compile, just run "make all"
 
 To get help: ./masm -h
+
 To assemble file: ./masm  -s [start_address] [filename]
+
 To disassemble file: ./masm -d [filename]
 
 
