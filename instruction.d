@@ -398,8 +398,8 @@ public:
 
         enforce(operands.length == 3, format("Error on line %s: expected 3 operands, got %s\n\n%s",
                                              lineNumber, operands.length, line));
-        rs = Register(operands[0], line, lineNumber);
-        rt = Register(operands[1], line, lineNumber);
+        rt = Register(operands[0], line, lineNumber);
+        rs = Register(operands[1], line, lineNumber);
 
         void parseError() {
             formatException("Error on line %d: failed to parse immediate\n\n%s",
